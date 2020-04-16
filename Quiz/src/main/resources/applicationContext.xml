@@ -20,6 +20,10 @@
     <bean id="answer" class="fr.shiv.quiz.services.Answer">
     </bean>
     
+    <bean id="str" class="java.lang.String">
+	  <constructor-arg value="string_1"/>
+	</bean>
+    
     <bean id="questionDAO" class="fr.shiv.quiz.dao.QuestionDAO">
     </bean>
     
@@ -39,6 +43,8 @@
    
     <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"></bean>
     
+    <bean class= "fr.shiv.quiz.processors.PostProcessor"></bean>
+    <bean class= "fr.shiv.quiz.processors.FactoryPostProcessors"></bean>
     
     <!-- hiberntae configrations -->
 	
@@ -53,7 +59,6 @@
 	<property name="maxIdleTime" value="30000" />
 	</bean>
 	
-	
 	<bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
 	<property name="dataSource" ref="myDataSource" />
 	<property name="packagesToScan" value="fr.shiv.quiz" />
@@ -64,8 +69,6 @@
 	</props>
 	</property>  
 	</bean>
-	
-	
 	
 	<bean id="myTransactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
 	<property name="sessionFactory" ref="sessionFactory" />

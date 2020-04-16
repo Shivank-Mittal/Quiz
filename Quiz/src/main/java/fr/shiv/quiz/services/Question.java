@@ -1,14 +1,20 @@
 package fr.shiv.quiz.services;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
+import org.springframework.context.annotation.Primary;
 
 
 
 @Entity
 public class Question {	
 	
+	
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int Question_ID;
 	
 	private String Question;

@@ -3,6 +3,8 @@ package fr.shiv.quiz.dao;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.transaction.Transactional;
 
 import org.hibernate.Session;
@@ -13,10 +15,10 @@ import fr.shiv.quiz.services.Question;
 
 public class QuestionDAO {
 	
-//	@Autowired
-//	private SessionFactory sessionFactory;
 	
-	@Inject SessionFactory factory;
+	@Inject 
+	SessionFactory factory;
+	
 	
 	@Transactional
 	public List<Question> getQuestions(){
@@ -24,25 +26,51 @@ public class QuestionDAO {
 		Session session = factory.getCurrentSession();
 		
 		 List<Question> questions= session.createQuery("from Question",Question.class).list();
+		 
+		 for (Question question : questions) {
+			 System.out.println(question.getQuestion_ID() +": "+ question.getQuestion());
+		}
 		
 		 return questions;
 		
 	}
-//	
-//	public void addQuestion() {
-//		
-//		System.out.println(factory);
-//
-//		Session session = factory.openSession();
-//		
-//		if(factory != null) {
-//			Question question = new Question();
-//			question.setQuestion("what is Angular");
-//			session.save(question);
-//		}
-//		else {
-//			System.out.println("sessionFactory is null");
-//		}
-//	}
+	
+	
+	@Transactional
+	public Question getQuestion(int qId) {
+		
+		Session session = factory.getCurrentSession();
+		
+		
+		return session.get(Question.class, qId);
+		
+	}
+	
+	@Transactional
+	public int addQuestion ( Question ques) {
+		
+		Session session = factory.getCurrentSession();
+		
+		
+		return (Integer) session.save(ques);
+	}
+	
+	@Transactional
+	public void deleteQuestion(int id) {
+		
+		Session session = factory.getCurrentSession();
+		Question findQ = session.find(Question.class,id);
+		
+		session.delete(findQ);
+	}
+	
+	
+	@Transactional
+	public void updateQuestion(Question question) {
+		
+		Session session = factory.getCurrentSession();
+		 session.update(question);
+		
+	}
 
 }
